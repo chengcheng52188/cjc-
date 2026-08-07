@@ -8,7 +8,7 @@ export default function Home({ onStart }) {
       <div className="relative" style={{ width: '100%', maxWidth: 600, height: 160 }}>
         {/* Image behind button */}
         <img
-          src="/ims2.webp"
+          src={import.meta.env.BASE_URL + 'ims2.webp'}
           alt=""
           className="w-full rounded-2xl object-cover pointer-events-none"
           style={{ height: 160, opacity: 0.35, objectPosition: 'center 30%', filter: 'brightness(0.6) saturate(0.8)' }}

@@ -41,13 +41,13 @@ export default function Study({ onComplete, onBack }) {
 
   if (step === -1) {
     const galleryItems = [
-      { image: '/1.webp', text: '新词学习' },
-      { image: '/2.webp', text: '单词复习' },
-      { image: '/3.webp', text: '造句练习' },
-      { image: '/4.webp', text: '介词填空' },
-      { image: '/5.webp', text: '听写训练' },
-      { image: '/6.webp', text: '跟读练习' },
-      { image: '/7.webp', text: '新词巩固' },
+      { image: import.meta.env.BASE_URL + '1.webp', text: '新词学习' },
+      { image: import.meta.env.BASE_URL + '2.webp', text: '单词复习' },
+      { image: import.meta.env.BASE_URL + '3.webp', text: '造句练习' },
+      { image: import.meta.env.BASE_URL + '4.webp', text: '介词填空' },
+      { image: import.meta.env.BASE_URL + '5.webp', text: '听写训练' },
+      { image: import.meta.env.BASE_URL + '6.webp', text: '跟读练习' },
+      { image: import.meta.env.BASE_URL + '7.webp', text: '新词巩固' },
     ]
     return (
       <div className="flex flex-col items-center justify-center min-h-[70vh]">
