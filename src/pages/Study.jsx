@@ -59,24 +59,24 @@ export default function Study({ onComplete, onBack }) {
             borderRadius={0.05}
             font="bold 20px sans-serif"
           />
-          {/* Click zones for each card */}
-          <div className="absolute inset-0 flex pointer-events-none z-10">
-            {[0,1,2,3,4,5,6].map(i => {
-              const modId = plan?.modules[i]?.id
-              const done = plan?.completedModules?.includes(modId)
+          <div className="flex justify-center gap-2 mt-4 flex-wrap">
+            {plan?.modules.map((mod, i) => {
+              const done = plan?.completedModules?.includes(mod.id)
+              const meta = moduleMeta[mod.id]
               return (
-                <div
-                  key={i}
-                  className="flex-1 pointer-events-auto cursor-pointer relative"
-                  onClick={() => handleStart(i)}
-                  title={galleryItems[i].text}
+                <button
+                  key={mod.id}
+                  onClick={(e) => { e.stopPropagation(); handleStart(i) }}
+                  className="text-xs py-1.5 px-3 rounded-xl font-medium transition-all"
+                  style={{
+                    background: done ? 'rgba(255,255,255,0.04)' : meta?.color + '15',
+                    color: done ? '#5c5c78' : meta?.color,
+                    border: '1px solid ' + (done ? 'rgba(255,255,255,0.06)' : meta?.color + '30'),
+                    textDecoration: done ? 'line-through' : 'none'
+                  }}
                 >
-                  {done && (
-                    <div className="absolute inset-0 bg-black/50 rounded-lg flex items-center justify-center">
-                      <span className="text-xs text-emerald-400">✓ 已完成</span>
-                    </div>
-                  )}
-                </div>
+                  {meta?.title}
+                </button>
               )
             })}
           </div>
