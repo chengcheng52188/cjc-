@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>风格3 - 温润纸质感</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Georgia','Noto Serif SC',serif;background:#faf6f0;max-width:420px;margin:0 auto;min-height:100vh;color:#3d3226}
+.header{padding:36px 24px 20px;text-align:center;border-bottom:1px solid #e8dcc8}
+.header h1{font-size:24px;font-weight:400;color:#8b6914;letter-spacing:1px}
+.header .sub{font-size:13px;color:#b8a88a;margin-top:6px;font-style:italic}
+.streak-card{margin:20px;padding:20px 24px;background:#fff;border-radius:20px;box-shadow:0 2px 16px rgba(139,105,20,.06);display:flex;justify-content:space-between;align-items:center}
+.streak-card .count{font-size:36px;font-weight:700;color:#c4952a;font-family:-apple-system,sans-serif}
+.streak-card .label{font-size:13px;color:#b8a88a}
+.tasks{padding:0 20px}
+.task{display:flex;align-items:center;gap:14px;padding:15px 16px;border-radius:16px;margin-bottom:6px;cursor:pointer;transition:all .2s;background:#fff;border:1px solid #f0e8d8}
+.task:hover{border-color:#c4952a;box-shadow:0 4px 12px rgba(139,105,20,.08)}
+.task .icon{font-size:22px;width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.task .info{flex:1}
+.task .name{font-family:-apple-system,sans-serif;font-size:14px;font-weight:600;color:#3d3226}
+.task .desc{font-size:12px;color:#b8a88a;margin-top:1px}
+.task .badge{font-size:11px;padding:4px 10px;border-radius:99px;font-family:-apple-system,sans-serif;font-weight:600;background:#f0e8d8;color:#8b6914}
+.task.done{opacity:.45}
+.bottom{position:sticky;bottom:0;background:rgba(250,246,240,.95);backdrop-filter:blur(10px);display:flex;padding:10px 24px 24px;gap:8px;border-top:1px solid #e8dcc8}
+.bottom button{flex:1;padding:12px;border:none;border-radius:12px;font-size:14px;cursor:pointer;font-family:-apple-system,sans-serif;font-weight:600;transition:all .2s}
+.bottom .active{background:#c4952a;color:#fff}
+.bottom .inactive{background:transparent;color:#b8a88a}
+</style></head>
+<body>
+<div class="header">
+  <h1>EngLearn</h1>
+  <div class="sub">每天进步一点点</div>
+</div>
+<div class="streak-card">
+  <div>
+    <div class="count">7</div>
+    <div class="label">天连续学习</div>
+  </div>
+  <div style="text-align:right">
+    <div class="count" style="color:#8b6914">70%</div>
+    <div class="label">今日进度</div>
+  </div>
+</div>
+<div class="tasks">
+  <div class="task">
+    <div class="icon" style="background:#fdf3e0">📝</div>
+    <div class="info"><div class="name">新词学习</div><div class="desc">学习 20 个 CET-4 核心词汇</div></div>
+    <div class="badge">10min</div>
+  </div>
+  <div class="task done">
+    <div class="icon" style="background:#e8f5e0">✅</div>
+    <div class="info"><div class="name">单词复习</div><div class="desc">间隔重复记忆</div></div>
+    <div class="badge">完成</div>
+  </div>
+  <div class="task">
+    <div class="icon" style="background:#f0e8f8">🤖</div>
+    <div class="info"><div class="name">造句练习</div><div class="desc">中译英 + AI 智能评分</div></div>
+    <div class="badge">8min</div>
+  </div>
+  <div class="task">
+    <div class="icon" style="background:#fff0e0">🎯</div>
+    <div class="info"><div class="name">介词填空</div><div class="desc">in / on / at / to 专项突破</div></div>
+    <div class="badge">8min</div>
+  </div>
+  <div class="task">
+    <div class="icon" style="background:#ffe8e8">🎧</div>
+    <div class="info"><div class="name">听写训练</div><div class="desc">听发音，拼写单词</div></div>
+    <div class="badge">8min</div>
+  </div>
+  <div class="task">
+    <div class="icon" style="background:#e0f0ff">🎤</div>
+    <div class="info"><div class="name">跟读练习</div><div class="desc">朗读句子，语音评分</div></div>
+    <div class="badge">8min</div>
+  </div>
+  <div class="task">
+    <div class="icon" style="background:#fffde0">⭐</div>
+    <div class="info"><div class="name">新词巩固</div><div class="desc">当日新词快速复习</div></div>
+    <div class="badge">8min</div>
+  </div>
+</div>
+<div class="bottom">
+  <button class="active">📖 学习</button>
+  <button class="inactive">📊 统计</button>
+</div>
+</body></html>

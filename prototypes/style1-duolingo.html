@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>风格1 - Duolingo游戏风</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,sans-serif;background:#fff;max-width:420px;margin:0 auto;min-height:100vh}
+.header{background:#58cc02;padding:48px 24px 32px;text-align:center;border-radius:0 0 24px 24px}
+.header h1{color:#fff;font-size:28px;font-weight:900}
+.header .streak{display:inline-flex;align-items:center;gap:8px;background:rgba(0,0,0,.1);padding:8px 16px;border-radius:99px;color:#fff;font-weight:700;margin-top:12px;font-size:18px}
+.content{padding:20px}
+.section-title{font-size:14px;font-weight:700;color:#4b4b4b;margin:20px 0 12px;text-transform:uppercase;letter-spacing:.5px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.module{background:#f7f7f7;border-radius:16px;padding:20px 16px;border:2px solid #e5e5e5;cursor:pointer;transition:all .15s;position:relative;overflow:hidden}
+.module:hover{border-color:#58cc02;transform:translateY(-2px)}
+.module .bar{position:absolute;top:0;left:0;right:0;height:4px}
+.module .emoji{font-size:28px;margin-bottom:8px}
+.module .title{font-weight:800;font-size:15px;color:#333}
+.module .sub{font-size:12px;color:#999;margin-top:2px}
+.module .time{font-size:11px;color:#aaa;margin-top:8px}
+.module.done{opacity:.4;border-color:#58cc02}
+.bottom{position:sticky;bottom:0;background:#fff;border-top:1px solid #eee;display:flex;padding:8px 16px 24px;gap:4px}
+.bottom button{flex:1;padding:12px;border:none;border-radius:12px;font-weight:700;font-size:14px;cursor:pointer}
+.bottom .active{background:#58cc02;color:#fff}
+.bottom .inactive{background:transparent;color:#999}
+.progress-ring{display:flex;justify-content:center;margin-bottom:16px}
+</style></head>
+<body>
+<div class="header">
+  <h1>EngLearn</h1>
+  <div class="streak">🔥 7 天连续</div>
+</div>
+<div class="content">
+  <div class="progress-ring">
+    <svg width="72" height="72" viewBox="0 0 72 72" style="transform:rotate(-90deg)">
+      <circle cx="36" cy="36" r="30" fill="none" stroke="#e5e5e5" stroke-width="5"/>
+      <circle cx="36" cy="36" r="30" fill="none" stroke="#58cc02" stroke-width="5" stroke-linecap="round" stroke-dasharray="188.5" stroke-dashoffset="56.5"/>
+    </svg>
+    <div style="position:absolute;font-size:18px;font-weight:900;color:#58cc02;margin-top:26px">70%</div>
+  </div>
+  <div class="section-title">📋 今日任务</div>
+  <div class="grid">
+    <div class="module"><div class="bar" style="background:#58cc02"></div><div class="emoji">📝</div><div class="title">新词学习</div><div class="sub">学习20个词</div><div class="time">⏱ 10min</div></div>
+    <div class="module done"><div class="bar" style="background:#58cc02"></div><div class="emoji">✅</div><div class="title">单词复习</div><div class="sub">间隔记忆</div><div class="time">⏱ 8min</div></div>
+    <div class="module"><div class="bar" style="background:#ce82ff"></div><div class="emoji">🤖</div><div class="title">造句练习</div><div class="sub">AI智能评分</div><div class="time">⏱ 8min</div></div>
+    <div class="module"><div class="bar" style="background:#ff9600"></div><div class="emoji">🎯</div><div class="title">介词填空</div><div class="sub">专项突破</div><div class="time">⏱ 8min</div></div>
+    <div class="module"><div class="bar" style="background:#ff4d4d"></div><div class="emoji">🎧</div><div class="title">听写训练</div><div class="sub">听音拼词</div><div class="time">⏱ 8min</div></div>
+    <div class="module"><div class="bar" style="background:#1cb0f6"></div><div class="emoji">🎤</div><div class="title">跟读练习</div><div class="sub">语音评分</div><div class="time">⏱ 8min</div></div>
+    <div class="module"><div class="bar" style="background:#ffc800"></div><div class="emoji">⭐</div><div class="title">新词巩固</div><div class="sub">快速复习</div><div class="time">⏱ 8min</div></div>
+  </div>
+</div>
+<div class="bottom">
+  <button class="active">📖 学习</button>
+  <button class="inactive">📊 统计</button>
+</div>
+</body></html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>风格4 - 霓虹暗黑</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
+body{font-family:'Space Grotesk',-apple-system,sans-serif;background:#0a0a0f;max-width:420px;margin:0 auto;min-height:100vh;color:#e0e0f0}
+.header{padding:32px 24px 8px;display:flex;justify-content:space-between;align-items:center}
+.header .brand{font-size:22px;font-weight:700;background:linear-gradient(135deg,#00ff88,#00aaff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.header .level{font-size:12px;padding:4px 12px;border-radius:99px;border:1px solid rgba(0,255,136,.3);color:#00ff88;font-weight:600}
+.hero{padding:20px 24px;text-align:center}
+.hero .ring{display:inline-block;position:relative;margin-bottom:12px}
+.hero .ring svg{filter:drop-shadow(0 0 12px rgba(0,255,136,.3))}
+.hero .ring .pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;color:#00ff88}
+.hero .streak{margin-top:8px;font-size:14px;color:#666}
+.hero .streak b{color:#ff8800}
+.grid{padding:0 20px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.card{padding:18px 14px;border-radius:16px;border:1px solid rgba(255,255,255,.06);cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;opacity:.5}
+.card:hover{transform:translateY(-3px)}
+.card .emoji{font-size:26px;margin-bottom:10px}
+.card .title{font-size:13px;font-weight:700;margin-bottom:3px}
+.card .sub{font-size:11px;color:#666}
+.card .time{font-size:10px;color:#444;margin-top:8px}
+.card.done{opacity:.3;border-color:rgba(0,255,136,.2)}
+.card.done::before{background:#00ff88}
+.g1{background:rgba(0,255,136,.04)}.g1::before{background:linear-gradient(90deg,#00ff88,transparent)}
+.g2{background:rgba(0,170,255,.04)}.g2::before{background:linear-gradient(90deg,#00aaff,transparent)}
+.g3{background:rgba(170,0,255,.04)}.g3::before{background:linear-gradient(90deg,#aa00ff,transparent)}
+.g4{background:rgba(255,136,0,.04)}.g4::before{background:linear-gradient(90deg,#ff8800,transparent)}
+.g5{background:rgba(255,0,80,.04)}.g5::before{background:linear-gradient(90deg,#ff0050,transparent)}
+.g6{background:rgba(0,200,200,.04)}.g6::before{background:linear-gradient(90deg,#00c8c8,transparent)}
+.g7{background:rgba(255,200,0,.04)}.g7::before{background:linear-gradient(90deg,#ffc800,transparent)}
+.bottom{position:sticky;bottom:0;background:rgba(10,10,15,.9);backdrop-filter:blur(20px);display:flex;padding:12px 20px 24px;gap:6px;border-top:1px solid rgba(255,255,255,.04)}
+.bottom button{flex:1;padding:12px;border-radius:12px;font-size:13px;font-weight:700;cursor:pointer;border:1px solid transparent;transition:all .2s;font-family:inherit}
+.bottom .active{background:rgba(0,255,136,.1);border-color:rgba(0,255,136,.3);color:#00ff88}
+.bottom .inactive{background:transparent;color:#444}
+</style></head>
+<body>
+<div class="header">
+  <div class="brand">EngLearn</div>
+  <div class="level">CET-4</div>
+</div>
+<div class="hero">
+  <div class="ring">
+    <svg width="90" height="90" viewBox="0 0 90 90" style="transform:rotate(-90deg)">
+      <circle cx="45" cy="45" r="38" fill="none" stroke="rgba(255,255,255,.04)" stroke-width="4"/>
+      <circle cx="45" cy="45" r="38" fill="none" stroke="#00ff88" stroke-width="4" stroke-linecap="round" stroke-dasharray="238.8" stroke-dashoffset="71.6"/>
+    </svg>
+    <div class="pct">70%</div>
+  </div>
+  <div class="streak">🔥 连续 <b>7</b> 天</div>
+</div>
+<div class="grid">
+  <div class="card g1"><div class="emoji">📝</div><div class="title">新词学习</div><div class="sub">学习20个词</div><div class="time">10min</div></div>
+  <div class="card g2 done"><div class="emoji">✅</div><div class="title">单词复习</div><div class="sub">已完成</div><div class="time">8min</div></div>
+  <div class="card g3"><div class="emoji">🤖</div><div class="title">造句练习</div><div class="sub">AI评分</div><div class="time">8min</div></div>
+  <div class="card g4"><div class="emoji">🎯</div><div class="title">介词填空</div><div class="sub">专项突破</div><div class="time">8min</div></div>
+  <div class="card g5"><div class="emoji">🎧</div><div class="title">听写训练</div><div class="sub">听音拼词</div><div class="time">8min</div></div>
+  <div class="card g6"><div class="emoji">🎤</div><div class="title">跟读练习</div><div class="sub">语音评分</div><div class="time">8min</div></div>
+  <div class="card g7"><div class="emoji">⭐</div><div class="title">新词巩固</div><div class="sub">快速复习</div><div class="time">8min</div></div>
+</div>
+<div class="bottom">
+  <button class="active">📖 学习</button>
+  <button class="inactive">📊 统计</button>
+</div>
+</body></html>
