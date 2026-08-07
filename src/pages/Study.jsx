@@ -52,31 +52,30 @@ export default function Study({ onComplete, onBack }) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[70vh]">
         <div className="w-screen -mx-5 relative" style={{ height: 380 }}>
-          <CircularGallery
-            items={galleryItems}
-            bend={3}
-            textColor="#9b9bff"
-            borderRadius={0.05}
-            font="bold 20px sans-serif"
-          />
-          <div className="flex justify-center gap-2 mt-4 flex-wrap">
+          <div style={{ pointerEvents: 'none' }}>
+            <CircularGallery
+              items={galleryItems}
+              bend={3}
+              textColor="#9b9bff"
+              borderRadius={0.05}
+              font="bold 20px sans-serif"
+            />
+          </div>
+          <div className="absolute inset-0 flex z-10">
             {plan?.modules.map((mod, i) => {
               const done = plan?.completedModules?.includes(mod.id)
-              const meta = moduleMeta[mod.id]
               return (
-                <button
+                <div
                   key={mod.id}
-                  onClick={(e) => { e.stopPropagation(); handleStart(i) }}
-                  className="text-xs py-1.5 px-3 rounded-xl font-medium transition-all"
-                  style={{
-                    background: done ? 'rgba(255,255,255,0.04)' : meta?.color + '15',
-                    color: done ? '#5c5c78' : meta?.color,
-                    border: '1px solid ' + (done ? 'rgba(255,255,255,0.06)' : meta?.color + '30'),
-                    textDecoration: done ? 'line-through' : 'none'
-                  }}
+                  className="flex-1 cursor-pointer"
+                  onClick={() => handleStart(i)}
                 >
-                  {meta?.title}
-                </button>
+                  {done && (
+                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                      <span className="text-xs text-emerald-400">✓</span>
+                    </div>
+                  )}
+                </div>
               )
             })}
           </div>
