@@ -88,6 +88,7 @@
   }
   #root { position: relative; z-index: 1; }
   canvas { display: block; }
+  .circular-gallery canvas { pointer-events: none !important; }
   ::selection { background: var(--color-accent-dim); color: var(--color-accent); }
 }
 

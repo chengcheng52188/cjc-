@@ -52,15 +52,13 @@ export default function Study({ onComplete, onBack }) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[70vh]">
         <div className="w-screen -mx-5 relative" style={{ height: 380 }}>
-          <div style={{ pointerEvents: 'none' }}>
-            <CircularGallery
-              items={galleryItems}
-              bend={3}
-              textColor="#9b9bff"
-              borderRadius={0.05}
-              font="bold 20px sans-serif"
-            />
-          </div>
+          <CircularGallery
+            items={galleryItems}
+            bend={3}
+            textColor="#9b9bff"
+            borderRadius={0.05}
+            font="bold 20px sans-serif"
+          />
           <div className="absolute inset-0 flex z-10">
             {plan?.modules.map((mod, i) => {
               const done = plan?.completedModules?.includes(mod.id)
