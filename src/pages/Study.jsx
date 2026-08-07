@@ -60,7 +60,7 @@ export default function Study({ onComplete, onBack }) {
             font="bold 20px sans-serif"
           />
           {/* Click zones for each card */}
-          <div className="absolute inset-0 flex pointer-events-none">
+          <div className="absolute inset-0 flex pointer-events-none z-10">
             {[0,1,2,3,4,5,6].map(i => {
               const modId = plan?.modules[i]?.id
               const done = plan?.completedModules?.includes(modId)
