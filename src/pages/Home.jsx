@@ -16,8 +16,8 @@ export default function Home({ onStart }) {
 
         {/* Button on top */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           transition={{ duration: 0.4, ease: 'easeOut' }}
           onClick={onStart}
           className="absolute inset-0 cursor-pointer overflow-visible rounded-2xl"
