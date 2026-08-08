@@ -10,6 +10,8 @@ import Dictation from '../components/Dictation'
 import ReadAloud from '../components/ReadAloud'
 import NewWordReview from '../components/NewWordReview'
 import FuzzyText from '../components/ui/FuzzyText/FuzzyText'
+import CircularGallery from '../components/ui/CircularGallery/CircularGallery'
+import '../components/ui/CircularGallery/CircularGallery.css'
 
 const moduleMeta = {
   'new-words': { title: '新词学习', desc: '学习 20 个 CET-4 核心词汇', emoji: '📝', color: '#9b9bff' },
@@ -38,24 +40,48 @@ export default function Study({ onComplete, onBack }) {
   }
 
   if (step === -1) {
+    const galleryItems = [
+      { image: import.meta.env.BASE_URL + '1.webp', text: '新词学习' },
+      { image: import.meta.env.BASE_URL + '2.webp', text: '单词复习' },
+      { image: import.meta.env.BASE_URL + '3.webp', text: '造句练习' },
+      { image: import.meta.env.BASE_URL + '4.webp', text: '介词填空' },
+      { image: import.meta.env.BASE_URL + '5.webp', text: '听写训练' },
+      { image: import.meta.env.BASE_URL + '6.webp', text: '跟读练习' },
+      { image: import.meta.env.BASE_URL + '7.webp', text: '新词巩固' },
+    ]
     return (
-      <div className="flex flex-col items-center justify-center min-h-[70vh] text-center px-4">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="space-y-8">
-          <div className="text-6xl">📚</div>
-          <div style={{ minHeight: 80, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <FuzzyText baseIntensity={0.2} hoverIntensity={0.5} enableHover fontSize="clamp(2.5rem, 8vw, 3.5rem)" fontWeight={300} color="#9b9bff">今日学习</FuzzyText>
+      <div className="flex flex-col items-center justify-center min-h-[70vh]">
+        <div className="w-screen -mx-5 relative" style={{ height: 380 }}>
+          <CircularGallery
+            items={galleryItems}
+            bend={3}
+            textColor="#9b9bff"
+            borderRadius={0.05}
+            font="bold 20px sans-serif"
+          />
+          <div className="absolute inset-0 flex z-10">
+            {plan?.modules.map((mod, i) => {
+              const done = plan?.completedModules?.includes(mod.id)
+              return (
+                <div
+                  key={mod.id}
+                  className="flex-1 cursor-pointer"
+                  onClick={() => handleStart(i)}
+                >
+                  {done && (
+                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                      <span className="text-xs text-emerald-400">✓</span>
+                    </div>
+                  )}
+                </div>
+              )
+            })}
           </div>
-          <p className="text-sm" style={{color: '#5c5c78'}}>7 个模块 · 约 58 分钟</p>
-          <div className="space-y-2 text-left w-full max-w-xs">
-            {plan?.modules.map((mod, i) => (
-              <div key={mod.id} className="flex items-center gap-3 text-sm py-1.5">
-                <span className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium" style={{background: moduleMeta[mod.id]?.color + '20', color: moduleMeta[mod.id]?.color}}>{i + 1}</span>
-                <span style={{color: '#8888a0'}}>{moduleMeta[mod.id]?.title}</span>
-                <span className="ml-auto text-xs" style={{color: '#3c3c52'}}>~{mod.estimatedTime}min</span>
-              </div>
-            ))}
+        </div>
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="text-center mt-6 space-y-4">
+          <div style={{ minHeight: 60 }}>
+            <FuzzyText baseIntensity={0.2} hoverIntensity={0.5} enableHover fontSize="clamp(2rem, 6vw, 2.5rem)" fontWeight={300} color="#9b9bff">选择模块</FuzzyText>
           </div>
-          <button onClick={() => handleStart(0)} className="btn btn-primary text-lg px-10">开始学习</button>
           <button onClick={onBack} className="btn-ghost text-sm">返回首页</button>
         </motion.div>
       </div>
