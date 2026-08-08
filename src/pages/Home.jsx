@@ -5,7 +5,7 @@ export default function Home({ onStart }) {
   return (
     <div className="flex items-center justify-center min-h-[85vh] px-4">
       {/* Wrapper for image + button overlap */}
-      <div className="relative" style={{ width: '100%', maxWidth: 600, height: 160 }}>
+      <div className="relative" style={{ width: '100%', maxWidth: 720, height: 160 }}>
         {/* Image behind button */}
         <img
           src={import.meta.env.BASE_URL + 'ims2.webp'}
@@ -34,8 +34,8 @@ export default function Home({ onStart }) {
 
           <ASCIIText
             text="S T A R T"
-            asciiFontSize={12}
-            textFontSize={200}
+            asciiFontSize={10}
+            textFontSize={180}
             textColor="#fdf9f3"
             planeBaseHeight={8}
             enableWaves={false}
