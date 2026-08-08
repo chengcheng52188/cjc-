@@ -10,6 +10,7 @@ import Dictation from '../components/Dictation'
 import ReadAloud from '../components/ReadAloud'
 import NewWordReview from '../components/NewWordReview'
 import FuzzyText from '../components/ui/FuzzyText/FuzzyText'
+import { Progress } from '../components/ui/progress'
 import CircularGallery from '../components/ui/CircularGallery/CircularGallery'
 import '../components/ui/CircularGallery/CircularGallery.css'
 
@@ -129,10 +130,12 @@ export default function Study({ onComplete, onBack }) {
               <p className="text-xs mt-0.5" style={{color: '#5c5c78'}}>{meta.desc}</p>
             </div>
           </div>
-          <div className="flex gap-1.5 mt-3">
-            {plan.modules.map((_, i) => (
-              <div key={i} className="flex-1 h-1 rounded-full transition-all" style={{background: i < step ? meta.color : i === step ? meta.color : 'rgba(255,255,255,0.04)'}} />
-            ))}
+          <div className="mt-3">
+            <Progress
+              value={((step) / plan.modules.length) * 100}
+              className="h-1.5"
+              style={{ background: 'rgba(255,255,255,0.04)', '--primary': meta.color }}
+            />
           </div>
         </div>
       </div>
