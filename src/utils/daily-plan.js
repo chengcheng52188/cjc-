@@ -22,11 +22,28 @@ export function generateDailyPlan() {
     return [...unlearnedSorted.slice(start), ...unlearnedSorted.slice(0, start)].slice(0, 20)
   })()
 
-  // 2. Review words: words due for review via SM-2
-  const reviewIds = getWordsForReview(today, allRecords)
-  const reviewWords = cet4Words.filter(w => reviewIds.includes(w.id))
-  // Limit to avoid overwhelming
-  const reviewLimit = Math.min(reviewWords.length, 15)
+  // 2. Review words: 前三天学过的词交叉打乱（学习天数>=3触发），否则用 SM-2 到期词
+  const learningDays = new Set(
+    Object.values(allRecords).map(r => new Date(r.learnedAt).toISOString().split('T')[0])
+  ).size
+  const DAY_MS = 86400000
+  const recentLearnedIds = Object.entries(allRecords)
+    .filter(([_, r]) => new Date(r.learnedAt).getTime() >= today.getTime() - 3 * DAY_MS)
+    .map(([id]) => parseInt(id))
+
+  let reviewWords, reviewLimit
+  if (learningDays >= 3) {
+    // 前三天学过的词，交叉打乱
+    const shuffled = [...recentLearnedIds].sort(() => Math.random() - 0.5)
+    const wordById = new Map(cet4Words.map(w => [w.id, w]))
+    reviewWords = shuffled.map(id => wordById.get(id)).filter(Boolean)
+    reviewLimit = Math.min(reviewWords.length, 15)
+  } else {
+    // 学习天数不足 3：SM-2 间隔重复到期词
+    const reviewIds = getWordsForReview(today, allRecords)
+    reviewWords = cet4Words.filter(w => reviewIds.includes(w.id))
+    reviewLimit = Math.min(reviewWords.length, 15)
+  }
 
   // 3. Sentence prompts: pick 6, prioritize those using learned words
   const learnedWords = cet4Words.filter(w => learnedIds.includes(w.id))
