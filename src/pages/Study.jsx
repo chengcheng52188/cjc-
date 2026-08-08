@@ -58,15 +58,15 @@ export default function Study({ onComplete, onBack }) {
             textColor="#9b9bff"
             borderRadius={0.05}
             font="bold 20px sans-serif"
+            onItemClick={(i) => handleStart(i)}
           />
-          <div className="absolute inset-0 flex z-10">
+          <div className="absolute inset-0 flex z-10 pointer-events-none">
             {plan?.modules.map((mod, i) => {
               const done = plan?.completedModules?.includes(mod.id)
               return (
                 <div
                   key={mod.id}
-                  className="flex-1 cursor-pointer"
-                  onClick={() => handleStart(i)}
+                  className="flex-1"
                 >
                   {done && (
                     <div className="absolute inset-0 bg-black/40 flex items-center justify-center">

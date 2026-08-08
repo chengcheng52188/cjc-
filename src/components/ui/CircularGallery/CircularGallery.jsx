@@ -391,11 +391,13 @@ class App {
       borderRadius = 0,
       font = 'bold 30px Figtree',
       scrollSpeed = 2,
-      scrollEase = 0.05
+      scrollEase = 0.05,
+      onItemClick
     } = {}
   ) {
     document.documentElement.classList.remove('no-js');
     this.container = container;
+    this.onItemClick = onItemClick;
     this.scrollSpeed = scrollSpeed;
     this.scroll = { ease: scrollEase, current: 0, target: 0, last: 0 };
     this.onCheckDebounce = debounce(this.onCheck, 200);
@@ -520,6 +522,24 @@ class App {
     const item = width * itemIndex;
     this.scroll.target = this.scroll.target < 0 ? -item : item;
   }
+  onClick(e) {
+    if (!this.medias || !this.medias[0] || !this.onItemClick) return;
+    const rect = this.container.getBoundingClientRect();
+    const mx = e.clientX - rect.left;
+    const my = e.clientY - rect.top;
+    const worldX = (mx - this.screen.width / 2) / (this.screen.height / 2) * (this.viewport.height / 2);
+    const worldY = (my - this.screen.height / 2) / (this.screen.height / 2) * (this.viewport.height / 2);
+    let closest = -1, minDist = Infinity;
+    this.medias.forEach((media, i) => {
+      const dx = Math.abs(media.plane.position.x - worldX);
+      const dy = Math.abs(media.plane.position.y - worldY);
+      const dist = Math.sqrt(dx * dx + dy * dy * 3);
+      if (dist < minDist) { minDist = dist; closest = i; }
+    });
+    if (closest >= 0) {
+      this.onItemClick(closest % (this.medias.length / 2));
+    }
+  }
   onResize() {
     this.screen = {
       width: this.container.clientWidth,
@@ -554,6 +574,8 @@ class App {
     this.boundOnTouchMove = this.onTouchMove.bind(this);
     this.boundOnTouchUp = this.onTouchUp.bind(this);
     this.boundOnKeyDown = this.onKeyDown.bind(this);
+    this.boundOnClick = this.onClick.bind(this);
+    this.gl.canvas.addEventListener('click', this.boundOnClick);
 
     window.addEventListener('resize', this.boundOnResize);
     window.addEventListener('mousewheel', this.boundOnWheel);
@@ -582,6 +604,10 @@ class App {
       this.renderer.gl.canvas.parentNode.removeChild(this.renderer.gl.canvas);
     }
 
+    if (this.gl && this.gl.canvas) {
+      this.gl.canvas.removeEventListener('click', this.boundOnClick);
+    }
+
     if (this.container) {
       this.container.removeEventListener('keydown', this.boundOnKeyDown);
     }
@@ -596,7 +622,8 @@ export default function CircularGallery({
   font = 'bold 30px Figtree',
   fontUrl,
   scrollSpeed = 2,
-  scrollEase = 0.05
+  scrollEase = 0.05,
+  onItemClick
 }) {
   const containerRef = useRef(null);
   useEffect(() => {
@@ -612,7 +639,8 @@ export default function CircularGallery({
         borderRadius,
         font: resolvedFont,
         scrollSpeed,
-        scrollEase
+        scrollEase,
+        onItemClick
       });
     });
 
