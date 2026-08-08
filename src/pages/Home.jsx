@@ -33,9 +33,9 @@ export default function Home({ onStart }) {
           <span className="web-corner" style={{position:'absolute',bottom:-1,right:-1,width:50,height:50,borderBottom:'1px solid rgba(155,155,255,0.15)',borderRight:'1px solid rgba(155,155,255,0.15)',borderRadius:'0 0 14px 0',animationDelay:'3s'}} />
 
           <ASCIIText
-            text="S T A R T"
+            text="START"
             asciiFontSize={10}
-            textFontSize={180}
+            textFontSize={200}
             textColor="#fdf9f3"
             planeBaseHeight={8}
             enableWaves={false}
