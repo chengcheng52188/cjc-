@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Layout from './components/Layout'
 import { GridScan } from './components/ui/GridScan/GridScan'
 import './components/ui/GridScan/GridScan.css'
@@ -8,6 +8,15 @@ import Stats from './pages/Stats'
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState('home')
+
+  useEffect(() => {
+    // 背景图路径带 BASE_URL，适配 GitHub Pages 子路径部署
+    document.body.style.backgroundImage = `url(${import.meta.env.BASE_URL}ims.webp)`
+    document.body.style.backgroundSize = '100% auto'
+    document.body.style.backgroundPosition = 'center top'
+    document.body.style.backgroundRepeat = 'no-repeat'
+    document.body.style.backgroundAttachment = 'scroll'
+  }, [])
 
   return (
     <>
