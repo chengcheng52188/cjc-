@@ -130,12 +130,15 @@ export default function Study({ onComplete, onBack }) {
               <p className="text-xs mt-0.5" style={{color: '#5c5c78'}}>{meta.desc}</p>
             </div>
           </div>
-          <div className="mt-3">
+          <div className="mt-3 flex items-center gap-3">
             <Progress
-              value={((step) / plan.modules.length) * 100}
-              className="h-1.5"
+              value={((step + 1) / plan.modules.length) * 100}
+              className="h-2 flex-1"
               style={{ background: 'rgba(255,255,255,0.04)', '--primary': meta.color }}
             />
+            <span className="text-xs font-medium tabular-nums" style={{ color: meta.color }}>
+              {step + 1}/{plan.modules.length}
+            </span>
           </div>
         </div>
       </div>
