@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@import "@fontsource/orbitron/400.css";
+@import "@fontsource/orbitron/700.css";
 
 @theme {
   --color-bg: #0d0d1a;
@@ -22,6 +24,7 @@
   --color-yellow-dim: rgba(255,224,138,0.1);
   --color-pink: #e090d0;
   --color-pink-dim: rgba(224,144,208,0.1);
+  --font-hud: 'Orbitron', ui-monospace, 'SF Mono', Menlo, monospace;
 }
 
 @layer base {
@@ -129,4 +132,299 @@
 
   @keyframes fadeIn { from { opacity:0; transform:translateY(6px) } to { opacity:1; transform:translateY(0) } }
   .fade-in { animation: fadeIn 0.3s ease-out; }
+
+  /* ---------- HUD / tech style ---------- */
+  .hud-num {
+    font-family: var(--font-hud);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    font-variant-numeric: tabular-nums;
+  }
+  .glow { text-shadow: 0 0 8px currentColor, 0 0 26px currentColor; }
+  .glow-soft { text-shadow: 0 0 6px rgba(255,255,255,0.35), 0 0 18px currentColor; }
+
+  /* Quest panel: 简洁圆角面板 + 顶部能量条 */
+  .quest-panel {
+    position: relative;
+    padding: 16px;
+    border-radius: 14px;
+    border: 1px solid rgba(155,155,255,0.12);
+    background:
+      linear-gradient(rgba(155,155,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(155,155,255,0.04) 1px, transparent 1px),
+      linear-gradient(160deg, rgba(22,22,46,0.88), rgba(11,11,24,0.6));
+    background-size: 24px 24px, 24px 24px, 100% 100%;
+    transition: transform 0.25s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+  /* 顶部发光能量条 */
+  .quest-panel::after {
+    content: '';
+    position: absolute; top: 0; left: 18px; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--hc, #9b9bff), rgba(155,155,255,0.08));
+    box-shadow: 0 0 10px var(--hc, #9b9bff);
+    opacity: 0.8;
+  }
+  /* 任务编号 */
+  .quest-num {
+    font-family: var(--font-hud);
+    font-size: 30px; font-weight: 700;
+    line-height: 1;
+    padding-top: 2px;
+    color: var(--hc, #9b9bff);
+    opacity: 0.22;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  .quest-panel:hover .quest-num { opacity: 0.5; transform: scale(1.06); }
+
+  /* Tech progress bar */
+  .tech-bar {
+    position: relative;
+    height: 10px;
+    width: 100%;
+    border-radius: 3px;
+    overflow: hidden;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(155,155,255,0.18);
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.55), 0 0 6px rgba(155,155,255,0.07);
+  }
+  .tech-bar::before {
+    content: '';
+    position: absolute; inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(90deg,
+      transparent 0px, transparent 11px,
+      rgba(155,155,255,0.10) 11px, rgba(155,155,255,0.10) 12px);
+  }
+  .tech-bar-fill {
+    position: relative;
+    height: 100%;
+    border-radius: 3px 0 0 3px;
+    background: linear-gradient(90deg, var(--bar-from, #64c8ff), var(--bar-to, #9b9bff));
+    box-shadow: 0 0 10px var(--bar-glow, rgba(155,155,255,0.55)), inset 0 0 6px rgba(255,255,255,0.22);
+    transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  /* flowing energy highlight */
+  .tech-bar-fill::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.38), transparent);
+    background-size: 200% 100%;
+    animation: hud-shimmer 2.8s linear infinite;
+  }
+  /* radar scan line */
+  .tech-bar-fill::after {
+    content: '';
+    position: absolute; top: 0; bottom: 0;
+    width: 34%;
+    left: -40%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.65), transparent);
+    animation: hud-scan 3.2s ease-in-out infinite;
+  }
+  @keyframes hud-shimmer {
+    0% { background-position: 100% 0; }
+    100% { background-position: -100% 0; }
+  }
+  @keyframes hud-scan {
+    0% { left: -40%; }
+    100% { left: 110%; }
+  }
+  @keyframes hudTickIn {
+    from { opacity: 0; transform: scale(0.4); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  .hud-tick { animation: hudTickIn 0.35s ease-out both; }
+
+  /* ---------- Game XP bar + runner ---------- */
+  .game-track {
+    position: relative;
+    margin-top: 16px;
+    height: 60px;
+    border-radius: 10px;
+    border: 1px solid rgba(224,64,64,0.16);
+    background:
+      repeating-linear-gradient(90deg, transparent 0 23px, rgba(155,155,255,0.05) 23px 24px),
+      linear-gradient(180deg, rgba(20,20,40,0.5), rgba(13,13,26,0.35));
+  }
+  /* 分段经验条 */
+  .game-bar {
+    position: absolute; left: 8px; right: 8px; bottom: 8px;
+    display: flex; gap: 3px;
+    height: 13px;
+    padding: 2px;
+    border-radius: 6px;
+    background: rgba(5,5,15,0.75);
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.65);
+  }
+  .game-bar .seg {
+    flex: 1;
+    border-radius: 3px;
+    background: rgba(255,255,255,0.045);
+    border: 1px solid rgba(255,255,255,0.05);
+    transition: background 0.25s ease, box-shadow 0.25s ease;
+    transition-delay: calc(var(--i, 0) * 45ms);
+  }
+  .game-bar .seg.on {
+    /* 蛛网纹理：交叉丝线织在红底上 */
+    background:
+      repeating-linear-gradient(45deg, rgba(255,255,255,0.16) 0 1px, transparent 1px 5px),
+      repeating-linear-gradient(-45deg, rgba(255,255,255,0.16) 0 1px, transparent 1px 5px),
+      linear-gradient(180deg, #ffb3a0, #e04040 55%, #8a1f2e);
+    border-color: rgba(255,150,130,0.5);
+    box-shadow: 0 0 7px rgba(224,64,64,0.55);
+    /* 蛛网跑马灯：光点扫过时丝线依次亮起，像蛛网在编织蔓延（1.6s / 12 段） */
+    animation: marquee 1.6s linear infinite;
+    animation-delay: calc(var(--i, 0) * 0.133s);
+  }
+  @keyframes marquee {
+    0% { filter: brightness(0.85) contrast(1.05); box-shadow: 0 0 0 rgba(224,64,64,0); }
+    4% { filter: brightness(2.3) contrast(0.9); box-shadow: 0 0 10px rgba(255,150,130,0.85); }
+    9% { filter: brightness(0.85) contrast(1.05); box-shadow: 0 0 0 rgba(224,64,64,0); }
+    100% { filter: brightness(0.85) contrast(1.05); box-shadow: 0 0 0 rgba(224,64,64,0); }
+  }
+  /* 循环扫描脉冲：亮带从条头扫到条尾，无限循环（共振节拍 1.6s） */
+  .bar-scan {
+    position: absolute; top: 2px; bottom: 2px; left: 2px;
+    width: 26%;
+    border-radius: 4px;
+    pointer-events: none;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3) 50%, transparent);
+    animation: barScan 1.6s linear infinite;
+  }
+  @keyframes barScan {
+    0% { transform: translateX(-30%); }
+    100% { transform: translateX(400%); }
+  }
+  /* 小人脚下的蛛网扩散（替代冲击波，与小人的俯冲同拍 1.6s） */
+  .runner-ping {
+    position: absolute;
+    bottom: -3px; left: 50%;
+    width: 18px; height: 18px;
+    margin-left: -9px;
+    border-radius: 50%;
+    background:
+      repeating-radial-gradient(circle at center,
+        transparent 0 3px, rgba(255,255,255,0.6) 3px 3.6px,
+        transparent 3.6px 7px, rgba(255,120,100,0.45) 7px 7.6px),
+      repeating-conic-gradient(from 0deg at center,
+        transparent 0 15deg, rgba(255,255,255,0.5) 15deg 15.8deg,
+        transparent 15.8deg 30deg);
+    animation: webPing 1.6s ease-out infinite;
+    pointer-events: none;
+  }
+  @keyframes webPing {
+    0% { transform: scale(0.25); opacity: 0.95; }
+    70% { transform: scale(2.2); opacity: 0.4; }
+    100% { transform: scale(2.2); opacity: 0; }
+  }
+  /* 俯冲的小人（图片） */
+  .game-runner {
+    position: absolute; bottom: 4px;
+    width: 52px; height: 62px;
+    margin-left: -26px;
+    z-index: 2;
+    transition: left 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .game-runner img {
+    width: 100%; height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 0 8px rgba(224,64,64,0.7)) saturate(1.25);
+    animation: spideyDive 1.6s ease-in-out infinite;
+  }
+  /* 旋转彩虹光晕（炫彩感） */
+  .game-runner::before {
+    content: '';
+    position: absolute; inset: -9px;
+    border-radius: 50%;
+    z-index: -1;
+    background: conic-gradient(from 0deg, #ff7878, #64c8ff, #9b9bff, #ffe08a, #8be0a0, #ff7878);
+    filter: blur(12px);
+    opacity: 0.55;
+    animation: spinGlow 4s linear infinite;
+  }
+  @keyframes spinGlow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  /* 俯冲摆荡：图片已物理前倾 22°，这里只做小幅摆动 */
+  @keyframes spideyDive {
+    0%, 100% { transform: rotate(-8deg) translateY(0) scale(1.08); }
+    50% { transform: rotate(-16deg) translateY(-4px) scale(1.08); }
+  }
+
+  /* 等级徽章 */
+  .lvl-badge {
+    font-family: var(--font-hud);
+    font-size: 9px; font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 3px 8px;
+    border-radius: 5px;
+    color: #ffd9cf;
+    background: linear-gradient(180deg, rgba(224,64,64,0.28), rgba(140,25,40,0.4));
+    border: 1px solid rgba(255,120,100,0.5);
+    box-shadow: 0 0 10px rgba(224,64,64,0.35), inset 0 1px 0 rgba(255,255,255,0.2);
+  }
+
+  /* ---------- hover 蜘蛛侠交互 ---------- */
+  .quest-panel:hover {
+    transform: translateY(-2px);
+    border-color: rgba(224,64,64,0.35);
+    box-shadow: 0 10px 30px rgba(224,64,64,0.12), 0 0 40px rgba(100,200,255,0.06);
+  }
+  /* 蛛网从角落扩散 */
+  .quest-panel::before {
+    content: '';
+    position: absolute; inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    transform: scale(0.8);
+    transform-origin: 88% 10%;
+    transition: opacity 0.4s ease, transform 0.5s ease;
+    background:
+      repeating-radial-gradient(circle at 88% 10%,
+        transparent 0 13px, rgba(224,64,64,0.10) 13px 14px,
+        transparent 14px 27px, rgba(100,200,255,0.08) 27px 28px,
+        transparent 28px 41px, rgba(224,64,64,0.06) 41px 42px,
+        transparent 42px 55px, rgba(100,200,255,0.05) 55px 56px);
+  }
+  .quest-panel:hover::before { opacity: 1; transform: scale(1); }
+  /* hover：共振加速（扫描/蛛网/摆荡/跑马灯全部同步 0.8s） */
+  .quest-panel:hover .game-runner { transform: scale(1.1); }
+  .quest-panel:hover .game-runner img { animation-duration: 0.8s; }
+  .quest-panel:hover .runner-ping { animation-duration: 0.8s; }
+  .quest-panel:hover .bar-scan { animation-duration: 0.8s; }
+  /* hover：跑马灯加速（0.8s / 12 段 = 0.0667s 每段） */
+  .quest-panel:hover .game-bar .seg.on {
+    animation: marquee 0.8s linear infinite;
+    animation-delay: calc(var(--i, 0) * 0.0667s);
+  }
+  .quest-panel:hover .game-bar .seg:not(.on) { background: rgba(255,255,255,0.075); }
+  /* hover：等级徽章 pop */
+  .quest-panel:hover .lvl-badge {
+    animation: badgePop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  @keyframes badgePop {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.25) rotate(-3deg); }
+    100% { transform: scale(1); }
+  }
+  /* 小蜘蛛挂丝滑下 */
+  .hud-spider-wrap {
+    position: absolute; top: 0; right: 14px;
+    display: flex; flex-direction: column; align-items: center;
+    pointer-events: none; z-index: 2;
+  }
+  .hud-thread {
+    width: 1px; height: 0;
+    background: linear-gradient(180deg, rgba(224,64,64,0.5), rgba(224,64,64,0.08));
+    transition: height 0.4s ease;
+  }
+  .quest-panel:hover .hud-thread { height: 22px; }
+  .hud-spider {
+    color: #ff7878;
+    opacity: 0;
+    transform: translateY(-8px);
+    transition: opacity 0.3s ease, transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s;
+  }
+  .quest-panel:hover .hud-spider { opacity: 1; transform: translateY(0); }
 }
