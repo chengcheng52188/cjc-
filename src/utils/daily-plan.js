@@ -9,12 +9,18 @@ export function generateDailyPlan() {
   const allRecords = getAllWordRecords()
   const learnedIds = Object.keys(allRecords).map(Number)
   const today = new Date()
+  const todayIndex = Math.floor(today.getTime() / 86400000)
 
-  // 1. New words: pick 20 unlearned words
-  const unlearned = cet4Words
+  // 1. New words: pick 20 unlearned words, day-rotated window so each day offers a fresh set
+  const unlearnedSorted = cet4Words
     .filter(w => !learnedIds.includes(w.id))
     .sort((a, b) => a.difficulty - b.difficulty) // easier first
-    .slice(0, 20)
+  const unlearned = (() => {
+    const n = unlearnedSorted.length
+    if (!n) return []
+    const start = (todayIndex * 20) % n
+    return [...unlearnedSorted.slice(start), ...unlearnedSorted.slice(0, start)].slice(0, 20)
+  })()
 
   // 2. Review words: words due for review via SM-2
   const reviewIds = getWordsForReview(today, allRecords)
@@ -23,7 +29,6 @@ export function generateDailyPlan() {
   const reviewLimit = Math.min(reviewWords.length, 15)
 
   // 3. Sentence prompts: pick 6, prioritize those using learned words
-  const todayIndex = Math.floor(today.getTime() / 86400000)
   const learnedWords = cet4Words.filter(w => learnedIds.includes(w.id))
   // Get learned word strings for filtering
   const learnedWordSet = new Set(learnedWords.map(w => w.word.toLowerCase()))
@@ -55,9 +60,15 @@ export function generateDailyPlan() {
     ((todayIndex * 10) % prepositionQuestions.length) + 10
   )
 
-  // 5. Dictation words: pick 10 from learned + new
-  const dictationPool = [...unlearned.slice(0, 5), ...cet4Words.filter(w => learnedIds.includes(w.id)).slice(0, 5)]
-  const dictationWords = dictationPool.slice(0, 10)
+  // 5. Dictation words: pick 10, day-rotated mix of new + learned
+  const learnedSorted = cet4Words.filter(w => learnedIds.includes(w.id))
+  const dictPool = [...unlearned, ...learnedSorted]
+  const dictationWords = (() => {
+    const n = dictPool.length
+    if (!n) return []
+    const start = (todayIndex * 10) % n
+    return [...dictPool.slice(start), ...dictPool.slice(0, start)].slice(0, 10)
+  })()
 
   // 6. Read-aloud sentences: pick 5
   const readAloudSentences = sentencePrompts.slice(
