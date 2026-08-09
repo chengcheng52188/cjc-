@@ -3,3 +3,14 @@ dist
 .env
 .DS_Store
 *.local
+
+# 录制/诊断产物（不入库）
+record-*.mjs
+diag*.mjs
+seg-*.webm
+*.gif
+*-preview.mp4
+demo.webm
+englearn-demo.mp4
+gallery-check.png
+preview.png

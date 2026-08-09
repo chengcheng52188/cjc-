@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { speakWord } from '../utils/speech'
 import { markWordLearned } from '../utils/spaced-repetition'
@@ -13,7 +13,8 @@ export default function NewWordsModule({ words, onComplete }) {
   const currentWord = words[index]
   const isLast = index >= words.length - 1
 
-  useCallback(() => {
+  // 新词出现自动播放读音（learn 阶段）
+  useEffect(() => {
     if (currentWord && phase === 'learn') speakWord(currentWord.word)
   }, [currentWord, phase])
 
@@ -31,14 +32,22 @@ export default function NewWordsModule({ words, onComplete }) {
     else { setIndex(i => i + 1); setPhase('learn') }
   }
 
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      e.preventDefault()
-      if (phase === 'learn') { setPhase('spell'); setUserInput(''); setSubmitted(false) }
-      else if (submitted) handleNext()
-      else handleSubmit()
+  // 全局 Enter 监听：提交后 input 消失、焦点丢失，div onKeyDown 收不到事件，改用 window 级
+  const stateRef = useRef({ phase, submitted })
+  stateRef.current = { phase, submitted }
+  const submitRef = useRef(handleSubmit); submitRef.current = handleSubmit
+  const nextRef = useRef(handleNext); nextRef.current = handleNext
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key !== 'Enter' || e.isComposing) return
+      const { phase: p, submitted: s } = stateRef.current
+      if (p === 'learn') { setPhase('spell'); setUserInput(''); setSubmitted(false) }
+      else if (s) nextRef.current()
+      else submitRef.current()
     }
-  }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
 
   if (!currentWord) {
     return (
@@ -52,7 +61,7 @@ export default function NewWordsModule({ words, onComplete }) {
   }
 
   return (
-    <div className="space-y-6" onKeyDown={handleKeyDown}>
+    <div className="space-y-6">
       <div className="flex items-center justify-between text-xs" style={{color: '#5c5c78'}}>
         <div className="flex gap-1.5">
           {Array.from({length: Math.min(words.length, 8)}).map((_, i) => (
